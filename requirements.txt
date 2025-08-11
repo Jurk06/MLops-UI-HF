@@ -1,0 +1,13 @@
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+joblib
+requests
+streamlit
+huggingface_hub
+dotenv
+python-dotenv
+gradio
+streamlit
