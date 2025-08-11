@@ -27,9 +27,9 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git clone https://huggingface.co/spaces/jurk06/mlops-git-hf hf_space
+          git clone https://huggingface.co/spaces/Jurk06/mlops-git-hf hf_space
           cp -r * hf_space/
           cd hf_space
           git add .
           git commit -m "Update from GitHub Actions"
-          git push https://$HF_TOKEN@huggingface.co/spaces/jurk06/mlops-git-hf main
+          git push https://$HF_TOKEN@huggingface.co/spaces/Jurk06/mlops-git-hf main
