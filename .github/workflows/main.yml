@@ -2,34 +2,32 @@ name: Deploy to Hugging Face Spaces
 
 on:
   push:
-    branches:
-      - main  # deploy only when main branch changes
+    branches: [ main ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Push to Hugging Face Space
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      - name: Set up Git
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git clone https://huggingface.co/spaces/Jurk06/mlops-git-hf hf_space
-          cp -r * hf_space/
-          cd hf_space
+
+      - name: Clone Hugging Face Space
+        run: |
+          git clone https://huggingface.co/spaces/Jurk06/mlops-git-hf space_repo
+
+      - name: Copy project files
+        run: |
+          cp -r ./* space_repo/
+          cp -r .env space_repo/ || true  # optional if you have env file
+
+      - name: Push to Hugging Face
+        run: |
+          cd space_repo
           git add .
-          git commit -m "Update from GitHub Actions"
-          git push https://$HF_TOKEN@huggingface.co/spaces/Jurk06/mlops-git-hf main
+          git commit -m "Update from GitHub Actions" || echo "No changes to commit"
+          git push https://Jurk06:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/Jurk06/mlops-git-hf
