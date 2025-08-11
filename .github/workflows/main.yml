@@ -20,10 +20,9 @@ jobs:
         run: |
           git clone https://huggingface.co/spaces/Jurk06/mlops-git-hf space_repo
 
-      - name: Copy project files
+      - name: Copy project files (excluding space_repo)
         run: |
-          cp -r ./* space_repo/
-          cp -r .env space_repo/ || true  # optional if you have env file
+          rsync -av --progress ./ ./space_repo --exclude space_repo --exclude .git --exclude .github
 
       - name: Push to Hugging Face
         run: |
